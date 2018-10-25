@@ -26,6 +26,7 @@
 		5F4E7361214EDFC3004B28E4 /* JShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4E7360214EDFC3004B28E4 /* JShape.swift */; };
 		5F4E7364214EDFE7004B28E4 /* SShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4E7363214EDFE7004B28E4 /* SShape.swift */; };
 		5F4E7366214EDFFB004B28E4 /* ZShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4E7365214EDFFB004B28E4 /* ZShape.swift */; };
+		899812E22165BD34005C583C /* Tetris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899812E12165BD34005C583C /* Tetris.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		5F4E7360214EDFC3004B28E4 /* JShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JShape.swift; sourceTree = "<group>"; };
 		5F4E7363214EDFE7004B28E4 /* SShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SShape.swift; sourceTree = "<group>"; };
 		5F4E7365214EDFFB004B28E4 /* ZShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZShape.swift; sourceTree = "<group>"; };
+		899812E12165BD34005C583C /* Tetris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tetris.swift; path = tetris/Tetris.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				5F4E7348214EDCA5004B28E4 /* Info.plist */,
 				5F4E7352214EDE00004B28E4 /* Array2D.swift */,
 				5F4E7354214EDEA1004B28E4 /* Block.swift */,
+				899812E12165BD34005C583C /* Tetris.swift */,
 			);
 			path = Tetris;
 			sourceTree = "<group>";
@@ -146,11 +149,12 @@
 				TargetAttributes = {
 					5F4E7332214EDCA5004B28E4 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 5F4E732E214EDCA5004B28E4 /* Build configuration list for PBXProject "Tetris" */;
+			buildConfigurationList = 5F4E732E214EDCA5004B28E4 /* Build configuration list for PBXProject "tetris" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -191,6 +195,7 @@
 			files = (
 				5F4E735F214EDFAD004B28E4 /* LShape.swift in Sources */,
 				5F4E7359214EDF4D004B28E4 /* SquareShape.swift in Sources */,
+				899812E22165BD34005C583C /* Tetris.swift in Sources */,
 				5F4E733D214EDCA5004B28E4 /* GameScene.swift in Sources */,
 				5F4E7361214EDFC3004B28E4 /* JShape.swift in Sources */,
 				5F4E7357214EDEDF004B28E4 /* Shape.swift in Sources */,
@@ -343,7 +348,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.valleytutoring.Tetris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -357,7 +362,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.valleytutoring.Tetris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -365,7 +370,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5F4E732E214EDCA5004B28E4 /* Build configuration list for PBXProject "Tetris" */ = {
+		5F4E732E214EDCA5004B28E4 /* Build configuration list for PBXProject "tetris" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5F4E7349214EDCA5004B28E4 /* Debug */,
