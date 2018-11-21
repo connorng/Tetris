@@ -39,7 +39,11 @@ class GameScene: SKScene {
         addChild(gameLayer)
         let gameboardTexture = SKTexture (imageNamed: "gameboard")
         let gameboard = SKSpriteNode (texture: gameboardTexture, size: CGSizeMake (BlockSize * CGFloat(NumColumns), BlockSize * CGFloat(NumRows)) )
-        
+        gameboard.anchorPoint = CGPoint(x: 0, y: 1)
+        gameboard.position = layerPosition
+        shapeLayer.position = layerPosition
+        shapeLayer.addChild(gameboard)
+        gameLayer.addChild(shapeLayer)
     }
 	
     override func update(_ currentTime: TimeInterval) {
@@ -60,4 +64,30 @@ class GameScene: SKScene {
 	func stopTicking() {
 		lastTick = nil
 	}
+    
+    final func rotateBlocks(orientation: Orientation){
+        guard let blockRowColumnTranslation = blockRowColumnPositions [orientation] else{
+            return
+        }
+        for (idx,diff) in blockRowColumnTranslation.enumerate() {
+            block[idx].column = column + diff.columnDiff
+            block[idx].row = row + diff.rowDiff
+        }
+    }
+    final func moveTo (column: Int, row: Int){
+        self.column = column
+        self.row = row
+        rotateBlocks(orientation)
+    }
+    final func lowerShapeByOneRow(){
+      //  shiftBy
+    }
+    final func shiftBy(columns: Int, rows: Int){
+        self.column += columns
+        self.row += rows
+        for block in blocks {
+            block.columns += columns
+            block.rows += rows
+        }
+    }
 }
