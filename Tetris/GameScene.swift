@@ -15,7 +15,7 @@ class GameScene: SKScene {
 	
     let gameLayer = SKNode ()
     let shapeLayer = SKNode ()
-    let layerPosition = CGPoint (x: 6, y: -6)
+    let LayerPosition = CGPoint (x: 6, y: -6)
     
 	var tick:(() -> ())?
 	var tickLengthMillis = TickLengthLevelOne
@@ -40,8 +40,8 @@ class GameScene: SKScene {
         let gameboardTexture = SKTexture (imageNamed: "gameboard")
         let gameboard = SKSpriteNode (texture: gameboardTexture, size: CGSizeMake (BlockSize * CGFloat(NumColumns), BlockSize * CGFloat(NumRows)) )
         gameboard.anchorPoint = CGPoint(x: 0, y: 1)
-        gameboard.position = layerPosition
-        shapeLayer.position = layerPosition
+        gameboard.position = LayerPosition
+        shapeLayer.position = LayerPosition
         shapeLayer.addChild(gameboard)
         gameLayer.addChild(shapeLayer)
     }
@@ -65,7 +65,13 @@ class GameScene: SKScene {
 		lastTick = nil
 	}
     
-    final func rotateBlocks(orientation: Orientation){
+    func pointForColumn(column: Int, row: Int) -> CGPoint {
+        let x = LayerPosition.x + (column * BlockSize) + (BlockSize / 2)
+        let y = LayerPosition.y - (column * BlockSize) + (BlockSize / 2)
+        
+    }
+    
+    final func rotateBlocks(orientation: Orientation) {
         guard let blockRowColumnTranslation = blockRowColumnPositions [orientation] else{
             return
         }
@@ -74,20 +80,42 @@ class GameScene: SKScene {
             block[idx].row = row + diff.rowDiff
         }
     }
-    final func moveTo (column: Int, row: Int){
+    
+    final func moveTo (column: Int, row: Int) {
         self.column = column
         self.row = row
         rotateBlocks(orientation)
     }
-    final func lowerShapeByOneRow(){
-      //  shiftBy
+    
+    final func lowerShapeByOneRow() {
+        shiftBy(columns: 0, rows: 1)
     }
-    final func shiftBy(columns: Int, rows: Int){
+    
+    final func shiftBy(columns: Int, rows: Int) {
         self.column += columns
         self.row += rows
         for block in blocks {
             block.columns += columns
             block.rows += rows
+        }
+    }
+    
+    func random (startingColumn: Int, startingRow: Int) -> Shape {
+        switch Int(arc4random_uniform(NumShapeTypes)) {
+        case 0:
+            return SquareShape(startingColumn: Int, startingRow: Int)
+        case 1:
+            return LineShape(startingColumn: Int, startingRow: Int)
+        case 2:
+            return TShape(startingColumn: Int, startingRow: Int)
+        case 3:
+            return LShape(startingColumn: Int, startingRow: Int)
+        case 4:
+            return JShape(startingColumn: Int, startingRow: Int)
+        case 5:
+            return SShape(startingColumn: Int, startingRow: Int)
+        default:
+            return ZShape(startingColumn: Int, startingRow: Int)
         }
     }
 }
