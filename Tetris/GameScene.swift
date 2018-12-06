@@ -68,7 +68,17 @@ class GameScene: SKScene {
     func pointForColumn(column: Int, row: Int) -> CGPoint {
         let x = LayerPosition.x + (column * BlockSize) + (BlockSize / 2)
         let y = LayerPosition.y - (column * BlockSize) + (BlockSize / 2)
-        
+        return CGPoint (x: x, y: y)
+    }
+    
+    func addPreviewShapeToScene(shape: Shape, completion: ()->()){
+        for block in shape.Blocks {
+            var texture = textureCache [block.spriteName]
+            if texture == nil {
+                texture = SKTexture(imageNamed: block.spriteName)
+                textureCache [block.spriteName] = texture
+            }
+        }
     }
     
     final func rotateBlocks(orientation: Orientation) {
