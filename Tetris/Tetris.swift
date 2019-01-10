@@ -51,4 +51,61 @@ class Tetris {
         return (fallingShape, nextShape)
         
     }
+    func detectIllegalPlaement () -> Bool {
+        guard let shape = fallingShape else {
+            return false
+        }
+        for block in shape.blocks {
+            if block.column < 0 || block.column >= NumColumns
+                || block.row < 0 || block.row >= NumRows {
+                return true
+            }
+            else if blockArray [block.column, block.row] != nil {
+                return true
+            }
+        }
+        return false
+    }
+    func dropShape(){
+        guard let shape = fallingShape else {
+            return
+        }
+        while detectIllegalPlaement() == false {
+            shape.lowerShapeByOneRow()
+        }
+        shape.raiseShapeByOneRow()
+        delegate?.gameShapeDidDrop(tetris: self)
+    }
+    func letShapeFall(){
+        guard let shape = fallingShape else {
+            return
+        }
+        shape.lowerShapeByOneRow()
+        if detectIllegalPlaement() {
+            shape.raiseShapeByOneRow()
+            if detectIllegalPlaement(){
+                endGame ()
+            }
+            else {
+                settleShape ()
+            }
+        }
+        else {
+            delegate?.gameShapeDidMove(tetris: self)
+            if detectTouch() {
+                settleShape ()
+            }
+        }
+    }
+    func rotateShape() {
+        guard let shape = fallingShape else {
+            return
+        }
+        shape.rotateClockwise()
+        guard detectIllegalPlaement() == false else {
+            shape.rotateCounterClockwise()
+            return
+        }
+        delegate?.gameShapeDidMove(tetris: self)
+    }
 }
