@@ -78,6 +78,31 @@ class GameScene: SKScene {
                 texture = SKTexture(imageNamed: block.spriteName)
                 textureCache [block.spriteName] = texture
             }
+            let sprite = SKSpriteNode (texture: texture)
+            sprite.position = pointForColumn (block.column, block.row - 2)
+            shapeLayer.addChild(sprite)
+            block.sprite = sprite
+            sprite.alpha = 0
+            let moveAction = SKAction.moveTo(x: pointForColumn(block.column, block.row), duration: TimeInterval(0.2))
+            moveAction.timingMode = SKActionTimingMode.easeOut
+            let fadeInAction = SKAction.fadeAlpha(by: 0.7, duration: 0.4)
+            sprite.runAction (SKAction.group([moveAction,fadeInAction]))
+        }
+        runAction(SKAction.wait(forDuration: 0.4), completion: completion)
+    }
+    
+    func movePreviewShape(shape: Shape, completion: ()->()) {
+        for block in shape.blocks {
+            let sprite = block.sprite!
+            let moveTo = pointForColumn(block.column, block.row)
+            let moveToAction = SKAction.moveTo(x: moveTo, duration: 0.05)
+            moveToAction.timingMode = .easeOut
+            if block == shape.blocks.last{
+                sprite.runAction(moveToAction, completion)
+            }
+            else {
+                sprite.runAction(moveToAction)
+            }
         }
     }
     
