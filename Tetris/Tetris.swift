@@ -12,6 +12,8 @@ let StartingColumn = 4
 let StartingRow = 0
 let PreviewColumn = 12
 let PreviewRow = 1
+let PointsPerLine = 10
+let LevelThreshold = 500
 
 protocol TetrisDelegate {
     func gameDidEnd (tetris: Tetris)
@@ -27,6 +29,9 @@ class Tetris {
     var nextShape: Shape?
     var fallingShape: Shape?
     var delegate: TetrisDelegate?
+    var score = 0
+    var level = 1
+    
     init (){
         fallingShape = nil
         nextShape = nil
@@ -51,7 +56,7 @@ class Tetris {
         return (fallingShape, nextShape)
         
     }
-    func detectIllegalPlaement () -> Bool {
+    func detectIllegalPlacement () -> Bool {
         guard let shape = fallingShape else {
             return false
         }
@@ -70,7 +75,7 @@ class Tetris {
         guard let shape = fallingShape else {
             return
         }
-        while detectIllegalPlaement() == false {
+        while detectIllegalPlacement() == false {
             shape.lowerShapeByOneRow()
         }
         shape.raiseShapeByOneRow()
@@ -81,9 +86,9 @@ class Tetris {
             return
         }
         shape.lowerShapeByOneRow()
-        if detectIllegalPlaement() {
+        if detectIllegalPlacement() {
             shape.raiseShapeByOneRow()
-            if detectIllegalPlaement(){
+            if detectIllegalPlacement(){
                 endGame ()
             }
             else {
@@ -102,10 +107,128 @@ class Tetris {
             return
         }
         shape.rotateClockwise()
-        guard detectIllegalPlaement() == false else {
+        guard detectIllegalPlacement() == false else {
             shape.rotateCounterClockwise()
             return
         }
         delegate?.gameShapeDidMove(tetris: self)
+    }
+    func moveShapeLeft(){
+        guard let shape = fallingShape else {
+            return
+        }
+        shape.shiftLeftByOneColumn()
+        if detectIllegalPlacement(){
+            shape.raiseShapeByOneRow()
+            if detectIllegalPlacement(){
+                endGame();
+            }
+            else {
+                settleShape();
+            }
+        }
+        else {
+            delegate?.gameShapeDidMove(tetris: self)
+            if detectTouch(){
+                settleShape();
+            }
+        }
+    }
+    func moveShapeRight(){
+        guard let shape = fallingShape else {
+            return
+        }
+        shape.shiftRightByOneColumn()
+        if detectIllegalPlacement(){
+            shape.raiseShapeByOneRow()
+            if detectIllegalPlacement(){
+                endGame();
+            }
+            else {
+                settleShape();
+            }
+        }
+        else {
+            delegate?.gameShapeDidMove(tetris: self)
+            if detectTouch(){
+                settleShape();
+            }
+        }
+    }
+    
+    func settleShape(){
+        guard let shape = fallingShape else {
+            return
+        }
+        for block in shape.blocks {
+            blockArray[block.column, block.row] = block
+        }
+        fallingShape = nil
+        delegate?.gameShapeDidLand(tetris: self)
+    }
+    
+    func detectTouch() -> Bool {
+        guard let shape = fallingShape else {
+            return false
+        }
+        for bottomBlock in shape.bottomBlocks {
+            if bottomBlock.row == NumRows - 1 || blockArray[bottomBlock.column, bottomBlock.row + 1] != nil {
+                return true
+            }
+        }
+        return false
+    }
+    func endGame() {
+        score = 0
+        level = 1
+        delegate?.gameDidEnd(tetris: self)
+    }
+    func removeCompletedLines() -> (linesRemoved: Array<Array<Block>>, fallenBlocks: Array<Array<Block>>){
+        var removedLines = Array<Array<Block>>()
+        for row in (1..<NumRows).reversed(){
+            var rowOfBlocks = Array<Block>()
+            for column in (0..<NumColumns){
+                guard let block = blockArray[column, row] else{
+                    continue
+                }
+                rowOfBlocks.append(block)
+            }
+            if rowOfBlocks.count == NumColumns {
+                removedLines.append(rowOfBlocks)
+                for block in rowOfBlocks {
+                    blockArray[block.column, block.row] = nil
+                }
+            }
+        }
+        if removedLines.count == 0 {
+            return ([],[])
+        }
+        let pointsEarned = removedLines.count * PointsPerLine * level
+        score += pointsEarned
+        if score >= level * LevelThreshold {
+            level += 1
+            delegate?.gameDidLevelUp(tetris: self)
+        }
+        var fallenBlocks = Array<Array<Block>>()
+        for column in 0..<NumColumns {
+            var fallenBlocksArray = Array<Block>()
+            for row in (1..<removedLines[0][0].row).reversed() {
+                guard let block = blockArray[column,row] else {
+                    continue
+                }
+                var newRow = row
+                while (newRow<NumRows - 1 && blockArray[column,newRow + 1] == nil){
+                    newRow += 1
+                }
+                block.row = newRow
+                blockArray[column,row] = nil
+                blockArray[column,newRow] = block
+                fallenBlocksArray.append(block)
+            }
+            if fallenBlocksArray.count > 0 {
+                fallenBlocks.append(fallenBlocksArray)
+            }
+        }
+        return (removedLines, fallenBlocks)
     }
 }
