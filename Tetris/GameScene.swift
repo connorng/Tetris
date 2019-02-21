@@ -46,6 +46,23 @@ class GameScene: SKScene {
         gameLayer.addChild(shapeLayer)
     }
 	
+    func animateCollapsingLines(linesToRemove: Array<Array<Block>>,
+                                fallenBlocks: Array<Array<Block>>,
+                                completion: ()->()){
+        var longestDuration: TimeInterval = 0
+        for (columnIdx, column) in fallenBlocks.enumerated(){
+            for (blockIdx, block) in column.enumerated(){
+                let newPosition = pointForColumn(column: block.column, row: block.row)
+                let sprite = block.sprite!
+                let delay = (TimeInterval(columnIdx) * 0.05) + (TimeInterval(blockIdx) * 0.05)
+                let duration = TimeInterval(((sprite.position.y - newPosition.y) / BlockSize) * 0.1)
+                let moveAction = SKAction.moveTo(y: newPosition, duration: duration)
+                moveAction.timingMode = .EaseOut
+                sprite.run(SKAction.sequence([SKAction.wait(forDuration: delay),moveAction]))
+            }
+        }
+    }
+    
     override func update(_ currentTime: TimeInterval) {
 		guard let lastTick = lastTick else {
 			return
