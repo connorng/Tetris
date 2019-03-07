@@ -44,6 +44,7 @@ class GameScene: SKScene {
         shapeLayer.position = LayerPosition
         shapeLayer.addChild(gameboard)
         gameLayer.addChild(shapeLayer)
+        runAction(SKAction.repeatForever(SKAction.playSoundFileNamed("Sound/theme.mp3", waitForCompletion: true)))
     }
 	
     func animateCollapsingLines(linesToRemove: Array<Array<Block>>,
@@ -57,10 +58,38 @@ class GameScene: SKScene {
                 let delay = (TimeInterval(columnIdx) * 0.05) + (TimeInterval(blockIdx) * 0.05)
                 let duration = TimeInterval(((sprite.position.y - newPosition.y) / BlockSize) * 0.1)
                 let moveAction = SKAction.moveTo(y: newPosition, duration: duration)
-                moveAction.timingMode = .EaseOut
+                moveAction.timingMode = .easeOut
                 sprite.run(SKAction.sequence([SKAction.wait(forDuration: delay),moveAction]))
+                longestDuration = max(longestDuration, duration + delay)
             }
         }
+        for rowToRemove in linesToRemove {
+            for block in linesToRemove{
+                let randomRadius = CGFloat(UInt(arc4random_uniform(400) + 100))
+                let goLeft = arc4random_uniform(100) % 2 == 0
+                var point = pointForColumn(block.column, block.row)
+                point = CGPointMake(point.x + (goLeft ? -randomRadius : randomRadius), point.y)
+                let randomDuration = TimeInterval(arc4random_uniform(2)) + 0.5
+                var startAngle = CGFloat(M_PI)
+                var endAngle = startAngle * 2
+                if goLeft {
+                    endAngle = startAngle
+                    startAngle = 0
+                }
+                let archPath = UIBezierPath(point, randomRadius, startAngle, endAngle, goLeft)
+                let archAction = SKAction.follow(path: archPath.CGPath, asOffset: false, orientToPath: true, duration: randomDuration)
+                archAction.timingMode = .easeIn
+                let sprite = block.sprite!
+                sprite.zPosition = 100
+                sprite.runAction(SKAction.sequence([archAction, SKAction.fadeOut(withDuration: randomDuration)],SKAction.removeFromParent()))
+            }
+        }
+        runAction(SKAction.wait(forDuration: longestDuration), completion)
+    }
+    
+    func playSound(sound: String) {
+        runAction(SKAction.playSoundFileNamed(sound, waitForCompletion: false))
+        
     }
     
     override func update(_ currentTime: TimeInterval) {

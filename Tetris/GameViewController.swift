@@ -88,6 +88,9 @@ class GameViewController: UIViewController, TetrisDelegate, UITapGestureRecogniz
         })
     }
     func gameDidBegin(tetris: Tetris) {
+        levelLabel.text = "\(tetris.level)"
+        scoreLabel.text = "\(tetris.score)"
+        scene.tickLengthMillis = TickLengthLevelOne
         if tetris.nextShape != nil && tetris.nextShape!.blocks[0].sprite == nil{
             scene.addPreviewShapeToScene(shape: tetris.nextShape!, completion: {
                 self.nextShape()
@@ -100,20 +103,42 @@ class GameViewController: UIViewController, TetrisDelegate, UITapGestureRecogniz
     func gameDidEnd(tetris: Tetris) {
         view.isUserInteractionEnabled = false
         scene.stopTicking()
+        scene.playSound(sound: "Sounds/gameover.mp3")
+        scene.animateCollapsingLines(linesToRemove: tetris.removeAllBlocks(), fallenBlocks: tetris.removeAllBlocks()) {
+            tetris.beginGame()
+        }
     }
     func gameDidLevelUp(tetris: Tetris) {
+        levelLabel.text = "\(tetris.level)"
+        if scene.tickLengthMillis >= 100 {
+            scene.tickLengthMillis - 100
+        }
+        else if scene.tickLengthMillis >= 50 {
+            scene.tickLengthMillis - 50
+        }
+        scene.playSound(sound: "Sounds/levelup.mp3")
     }
     func gameShapeDidDrop(tetris: Tetris) {
         scene.stopTicking()
         scene.redrawShape(tetris.fallingShape!, {
             tetris.letShapeFall()
-            
         })
-        
+        scene.playSound(sound: "Sounds/drop.mp3")
     }
     func gameShapeDidLand(tetris: Tetris) {
         scene.stopTicking()
-        nextShape()
+        self.view.isUserInteractionEnabled = false
+        let removedLines = tetris.removeCompletedLines()
+        if removedLines.linesRemoved.count > 0 {
+            self.scoreLabel.text = "\(tetris.score)"
+            scene.animateCollapsingLines(linesToRemove: removedLines.linesRemoved, fallenBlocks: removedLines.fallenBlocks) {
+                self.gameShapeDidLand(tetris: Tetris)
+            }
+            scene.playSound(sound: "Sounds/bombs.mp3")
+        }
+        else {
+            nextShape()
+        }
     }
     func gameShapeDidMove(tetris: Tetris) {
         scene.redrawShape(tetris.fallingShape!, {})
