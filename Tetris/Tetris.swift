@@ -37,12 +37,14 @@ class Tetris {
         nextShape = nil
         blockArray = Array2D <Block>(columns: NumColumns, rows: NumRows)
     }
+    
     func beginGame () {
         if (nextShape == nil) {
             nextShape = Shape.random (startingColumn: PreviewColumn, startingRow: PreviewRow)
         }
         delegate?.gameDidBegin(tetris: self)
     }
+    
     func newShape() -> (fallingShape: Shape?, nextShape: Shape?) {
         fallingShape = nextShape
         nextShape = Shape.random(startingColumn: PreviewColumn, startingRow: PreviewRow)
@@ -56,6 +58,7 @@ class Tetris {
         return (fallingShape, nextShape)
         
     }
+    
     func detectIllegalPlacement () -> Bool {
         guard let shape = fallingShape else {
             return false

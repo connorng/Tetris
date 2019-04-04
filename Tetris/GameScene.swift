@@ -38,13 +38,13 @@ class GameScene: SKScene {
         
         addChild(gameLayer)
         let gameboardTexture = SKTexture (imageNamed: "gameboard")
-        let gameboard = SKSpriteNode (texture: gameboardTexture, size: CGSizeMake (BlockSize * CGFloat(NumColumns), BlockSize * CGFloat(NumRows)) )
+        let gameboard = SKSpriteNode (texture: gameboardTexture, size: CGSize(width: BlockSize * CGFloat(NumColumns), height: BlockSize * CGFloat(NumRows)))
         gameboard.anchorPoint = CGPoint(x: 0, y: 1)
         gameboard.position = LayerPosition
         shapeLayer.position = LayerPosition
         shapeLayer.addChild(gameboard)
         gameLayer.addChild(shapeLayer)
-        runAction(SKAction.repeatForever(SKAction.playSoundFileNamed("Sound/theme.mp3", waitForCompletion: true)))
+        run(SKAction.repeatForever(SKAction.playSoundFileNamed("Sound/theme.mp3", waitForCompletion: true)))
     }
 	
     func animateCollapsingLines(linesToRemove: Array<Array<Block>>,
@@ -57,7 +57,7 @@ class GameScene: SKScene {
                 let sprite = block.sprite!
                 let delay = (TimeInterval(columnIdx) * 0.05) + (TimeInterval(blockIdx) * 0.05)
                 let duration = TimeInterval(((sprite.position.y - newPosition.y) / BlockSize) * 0.1)
-                let moveAction = SKAction.moveTo(y: newPosition, duration: duration)
+                let moveAction = SKAction.moveTo(y: newPosition.y, duration: duration)
                 moveAction.timingMode = .easeOut
                 sprite.run(SKAction.sequence([SKAction.wait(forDuration: delay),moveAction]))
                 longestDuration = max(longestDuration, duration + delay)

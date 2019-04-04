@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController, TetrisDelegate, UITapGestureRecognizer {
+class GameViewController: UIViewController, TetrisDelegate {
 
 	var scene: GameScene!
     var tetris: Tetris!
@@ -46,18 +46,16 @@ class GameViewController: UIViewController, TetrisDelegate, UITapGestureRecogniz
     func gestureRecognizer() -> Bool {
         return true
     }
-    func gestureRecognizer() -> Bool {
-        
-    }
+
     @IBAction func didTap(_ sender: UITapGestureRecognizer) {
         tetris.rotateShape()
     }
     
     @IBAction func didPan(_ sender: UIPanGestureRecognizer) {
-        let currentPoint = sender.translationInView(self.view)
+        let currentPoint = sender.translation(in: self.view)
         if let originalPoint = panPointReference {
             if abs(currentPoint.x - originalPoint.x) > (BlockSize * 0.9){
-                if sender.velocityInView(self.view).x > CGFloat(0){
+                if sender.velocity(in: self.view).x > CGFloat(0){
                     tetris.moveShapeRight()
                     panPointReference = currentPoint
                 }
@@ -67,7 +65,7 @@ class GameViewController: UIViewController, TetrisDelegate, UITapGestureRecogniz
                 }
             }
         }
-        else if sender.state == .Began{
+        else if sender.state == .began{
             panPointReference = currentPoint
         }
     }
@@ -81,7 +79,7 @@ class GameViewController: UIViewController, TetrisDelegate, UITapGestureRecogniz
         guard let fallingShape = newShape.fallingShape else {
             return
         }
-        self.scene.addPreviewShapeToScene(shape: newShapes.nextShape, completion: {})
+        self.scene.addPreviewShapeToScene(shape: newShape.nextShape, completion: {})
         self.scene.movePreviewShape(shape: fallingShape, completion: {
             self.view.isUserInteractionEnabled = true
             self.scene.startTicking()
@@ -111,10 +109,10 @@ class GameViewController: UIViewController, TetrisDelegate, UITapGestureRecogniz
     func gameDidLevelUp(tetris: Tetris) {
         levelLabel.text = "\(tetris.level)"
         if scene.tickLengthMillis >= 100 {
-            scene.tickLengthMillis - 100
+            scene.tickLengthMillis -= 100
         }
         else if scene.tickLengthMillis >= 50 {
-            scene.tickLengthMillis - 50
+            scene.tickLengthMillis -= 50
         }
         scene.playSound(sound: "Sounds/levelup.mp3")
     }
@@ -132,7 +130,7 @@ class GameViewController: UIViewController, TetrisDelegate, UITapGestureRecogniz
         if removedLines.linesRemoved.count > 0 {
             self.scoreLabel.text = "\(tetris.score)"
             scene.animateCollapsingLines(linesToRemove: removedLines.linesRemoved, fallenBlocks: removedLines.fallenBlocks) {
-                self.gameShapeDidLand(tetris: Tetris)
+                self.gameShapeDidLand(tetris: tetris)
             }
             scene.playSound(sound: "Sounds/bombs.mp3")
         }

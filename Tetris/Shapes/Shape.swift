@@ -128,13 +128,13 @@ class Shape: Hashable, CustomStringConvertible {
 	
     final func rotateClockwise () {
         let newOrientation = Orientation.rotate (orientation: orientation, clockwise: true)
-        rotateBlocks(newOrientation)
+        rotateBlocks(orientation: newOrientation)
         orientation = newOrientation
     }
     
     final func rotateCounterClockwise () {
         let newOrientation = Orientation.rotate (orientation: orientation, clockwise: false)
-        rotateBlocks(newOrientation)
+        rotateBlocks(orientation: newOrientation)
         orientation = newOrientation
     }
     
