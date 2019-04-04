@@ -64,20 +64,20 @@ class GameScene: SKScene {
             }
         }
         for rowToRemove in linesToRemove {
-            for block in linesToRemove{
+            for block in rowToRemove{
                 let randomRadius = CGFloat(UInt(arc4random_uniform(400) + 100))
                 let goLeft = arc4random_uniform(100) % 2 == 0
-                var point = pointForColumn(block.column, block.row)
-                point = CGPointMake(point.x + (goLeft ? -randomRadius : randomRadius), point.y)
+                var point = pointForColumn(column: block.column, row: block.row)
+                point = CGPoint(x: point.x + (goLeft ? -randomRadius : randomRadius), y: point.y)
                 let randomDuration = TimeInterval(arc4random_uniform(2)) + 0.5
-                var startAngle = CGFloat(M_PI)
+                var startAngle = CGFloat(Double.pi)
                 var endAngle = startAngle * 2
                 if goLeft {
                     endAngle = startAngle
                     startAngle = 0
                 }
-                let archPath = UIBezierPath(point, randomRadius, startAngle, endAngle, goLeft)
-                let archAction = SKAction.follow(path: archPath.CGPath, asOffset: false, orientToPath: true, duration: randomDuration)
+                let archPath = UIBezierPath(arcCenter: point, radius: randomRadius, startAngle: startAngle, endAngle: endAngle, clockwise: goLeft)
+                let archAction = SKAction.follow(archPath.cgPath, asOffset: false, orientToPath: true, duration: randomDuration)
                 archAction.timingMode = .easeIn
                 let sprite = block.sprite!
                 sprite.zPosition = 100
@@ -88,7 +88,7 @@ class GameScene: SKScene {
     }
     
     func playSound(sound: String) {
-        runAction(SKAction.playSoundFileNamed(sound, waitForCompletion: false))
+        run(SKAction.playSoundFileNamed(sound, waitForCompletion: false))
         
     }
     
@@ -112,27 +112,27 @@ class GameScene: SKScene {
 	}
     
     func pointForColumn(column: Int, row: Int) -> CGPoint {
-        let x = LayerPosition.x + (column * BlockSize) + (BlockSize / 2)
-        let y = LayerPosition.y - (column * BlockSize) + (BlockSize / 2)
+        let x = LayerPosition.x + (CGFloat(column) * BlockSize) + (BlockSize / 2)
+        let y = LayerPosition.y - (CGFloat(column) * BlockSize) + (BlockSize / 2)
         return CGPoint (x: x, y: y)
     }
     
     func addPreviewShapeToScene(shape: Shape, completion: ()->()){
-        for block in shape.Blocks {
+        for block in shape.blocks {
             var texture = textureCache [block.spriteName]
             if texture == nil {
                 texture = SKTexture(imageNamed: block.spriteName)
                 textureCache [block.spriteName] = texture
             }
             let sprite = SKSpriteNode (texture: texture)
-            sprite.position = pointForColumn (block.column, block.row - 2)
+            sprite.position = pointForColumn (column: block.column, row: block.row - 2)
             shapeLayer.addChild(sprite)
             block.sprite = sprite
             sprite.alpha = 0
-            let moveAction = SKAction.moveTo(x: pointForColumn(block.column, block.row), duration: TimeInterval(0.2))
+            let moveAction = SKAction.move(to: pointForColumn(column: block.column, row: block.row), duration: TimeInterval(0.2))
             moveAction.timingMode = SKActionTimingMode.easeOut
             let fadeInAction = SKAction.fadeAlpha(by: 0.7, duration: 0.4)
-            sprite.runAction (SKAction.group([moveAction,fadeInAction]))
+            sprite.run (SKAction.group([moveAction,fadeInAction]))
         }
         runAction(SKAction.wait(forDuration: 0.4), completion: completion)
     }
@@ -140,8 +140,8 @@ class GameScene: SKScene {
     func movePreviewShape(shape: Shape, completion: ()->()) {
         for block in shape.blocks {
             let sprite = block.sprite!
-            let moveTo = pointForColumn(block.column, block.row)
-            let moveToAction = SKAction.moveTo(x: moveTo, duration: 0.05)
+            let moveTo = pointForColumn(column: block.column, row: block.row)
+            let moveToAction = SKAction.move(to: moveTo, duration: 0.05)
             moveToAction.timingMode = .easeOut
             if block == shape.blocks.last{
                 sprite.runAction(moveToAction, completion)
@@ -184,19 +184,19 @@ class GameScene: SKScene {
     func random (startingColumn: Int, startingRow: Int) -> Shape {
         switch Int(arc4random_uniform(NumShapeTypes)) {
         case 0:
-            return SquareShape(startingColumn: Int, startingRow: Int)
+            return SquareShape(column: Int, row: Int)
         case 1:
-            return LineShape(startingColumn: Int, startingRow: Int)
+            return LineShape(column: Int, row: Int)
         case 2:
-            return TShape(startingColumn: Int, startingRow: Int)
+            return TShape(column: Int, row: Int)
         case 3:
-            return LShape(startingColumn: Int, startingRow: Int)
+            return LShape(column: Int, row: Int)
         case 4:
-            return JShape(startingColumn: Int, startingRow: Int)
+            return JShape(column: Int, row: Int)
         case 5:
-            return SShape(startingColumn: Int, startingRow: Int)
+            return SShape(column: Int, row: Int)
         default:
-            return ZShape(startingColumn: Int, startingRow: Int)
+            return ZShape(column: Int, row: Int)
         }
     }
 }
