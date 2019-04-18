@@ -10,12 +10,14 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController, TetrisDelegate {
+class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerDelegate {
 
 	var scene: GameScene!
     var tetris: Tetris!
     var panPointReference: CGPoint?
-	
+    var scoreLabel: UILabel!
+    var levelLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		
@@ -72,14 +74,14 @@ class GameViewController: UIViewController, TetrisDelegate {
     func didTick(){
         tetris.letShapeFall()
         tetris.fallingShape?.lowerShapeByOneRow()
-        scene.redrawShape(tetris.fallingShape!, {})
+        scene.redrawShape(shape: tetris.fallingShape!, completion: {})
     }
     func nextShape(){
-        let newShape = tetris.nextShape()
+        let newShape = tetris.newShape()
         guard let fallingShape = newShape.fallingShape else {
             return
         }
-        self.scene.addPreviewShapeToScene(shape: newShape.nextShape, completion: {})
+        self.scene.addPreviewShapeToScene(shape: newShape.nextShape!, completion: {})
         self.scene.movePreviewShape(shape: fallingShape, completion: {
             self.view.isUserInteractionEnabled = true
             self.scene.startTicking()
@@ -118,7 +120,7 @@ class GameViewController: UIViewController, TetrisDelegate {
     }
     func gameShapeDidDrop(tetris: Tetris) {
         scene.stopTicking()
-        scene.redrawShape(tetris.fallingShape!, {
+        scene.redrawShape(shape: tetris.fallingShape!, completion:  {
             tetris.letShapeFall()
         })
         scene.playSound(sound: "Sounds/drop.mp3")
@@ -139,7 +141,7 @@ class GameViewController: UIViewController, TetrisDelegate {
         }
     }
     func gameShapeDidMove(tetris: Tetris) {
-        scene.redrawShape(tetris.fallingShape!, {})
+        scene!.redrawShape(shape: tetris.fallingShape!, completion: {})
     }
 }
 
