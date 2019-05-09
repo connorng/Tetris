@@ -16,8 +16,8 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
     var tetris: Tetris!
     var panPointReference: CGPoint?
 
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var levelLabel: UILabel!
+  //  @IBOutlet weak var scoreLabel: UILabel!
+   // @IBOutlet weak var levelLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,8 +89,8 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
         })
     }
     func gameDidBegin(tetris: Tetris) {
-        levelLabel.text = "\(tetris.level)"
-        scoreLabel.text = "\(tetris.score)"
+      //  levelLabel.text = "\(tetris.level)"
+        //scoreLabel.text = "\(tetris.score)"
         scene.tickLengthMillis = TickLengthLevelOne
         if tetris.nextShape != nil && tetris.nextShape!.blocks[0].sprite == nil{
             scene.addPreviewShapeToScene(shape: tetris.nextShape!, completion: {
@@ -110,7 +110,7 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
         }
     }
     func gameDidLevelUp(tetris: Tetris) {
-        levelLabel.text = "\(tetris.level)"
+       // levelLabel.text = "\(tetris.level)"
         if scene.tickLengthMillis >= 100 {
             scene.tickLengthMillis -= 100
         }
@@ -131,7 +131,7 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
         self.view.isUserInteractionEnabled = false
         let removedLines = tetris.removeCompletedLines()
         if removedLines.linesRemoved.count > 0 {
-            self.scoreLabel.text = "\(tetris.score)"
+           // self.scoreLabel.text = "\(tetris.score)"
             scene.animateCollapsingLines(linesToRemove: removedLines.linesRemoved, fallenBlocks: removedLines.fallenBlocks) {
                 self.gameShapeDidLand(tetris: tetris)
             }
