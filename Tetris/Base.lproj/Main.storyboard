@@ -74,6 +74,11 @@
                             <outletCollection property="gestureRecognizers" destination="JI1-b1-CqY" appends="YES" id="CfZ-uu-uvc"/>
                         </connections>
                     </view>
+                    <connections>
+                        <outlet property="levelLabel" destination="vOE-BG-7k5" id="Hit-jD-CWK"/>
+                        <outlet property="lvl" destination="vOE-BG-7k5" id="E0K-8J-hHi"/>
+                        <outlet property="scoreLabel" destination="d5d-Yd-6i3" id="9X6-Hk-C7g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="down" id="8pi-Gb-2s6">

@@ -44,7 +44,7 @@ class GameScene: SKScene {
         shapeLayer.position = LayerPosition
         shapeLayer.addChild(gameboard)
         gameLayer.addChild(shapeLayer)
-        run(SKAction.repeatForever(SKAction.playSoundFileNamed("Sound/theme.mp3", waitForCompletion: true)))
+        run(SKAction.repeatForever(SKAction.playSoundFileNamed("Sounds/theme.mp3", waitForCompletion: true)))
     }
 	
     func animateCollapsingLines(linesToRemove: Array<Array<Block>>,
@@ -164,54 +164,6 @@ class GameScene: SKScene {
             else {
                 sprite.run(moveToAction)
             }
-        }
-    }
-    
-    final func rotateBlocks(orientation: Orientation) {
-        guard let blockRowColumnTranslation = blockRowColumnPositions [orientation] else{
-            return
-        }
-        for (idx,diff) in blockRowColumnTranslation.enumerate() {
-            block[idx].column = column + diff.columnDiff
-            block[idx].row = row + diff.rowDiff
-        }
-    }
-    
-    final func moveTo (column: Int, row: Int) {
-        self.column = column
-        self.row = row
-        rotateBlocks(orientation)
-    }
-    
-    final func lowerShapeByOneRow() {
-        shiftBy(columns: 0, rows: 1)
-    }
-    
-    final func shiftBy(columns: Int, rows: Int) {
-        self.column += columns
-        self.row += rows
-        for block in blocks {
-            block.columns += columns
-            block.rows += rows
-        }
-    }
-    
-    func random (startingColumn: Int, startingRow: Int) -> Shape {
-        switch Int(arc4random_uniform(NumShapeTypes)) {
-        case 0:
-            return SquareShape(column: Int, row: Int)
-        case 1:
-            return LineShape(column: Int, row: Int)
-        case 2:
-            return TShape(column: Int, row: Int)
-        case 3:
-            return LShape(column: Int, row: Int)
-        case 4:
-            return JShape(column: Int, row: Int)
-        case 5:
-            return SShape(column: Int, row: Int)
-        default:
-            return ZShape(column: Int, row: Int)
         }
     }
 }
