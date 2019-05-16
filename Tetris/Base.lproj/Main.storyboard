@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.15" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.9"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +13,7 @@
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="Tetris" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,23 +74,27 @@
                             <outletCollection property="gestureRecognizers" destination="JI1-b1-CqY" appends="YES" id="CfZ-uu-uvc"/>
                         </connections>
                     </view>
+                    <connections>
+                        <outlet property="levelLabel" destination="vOE-BG-7k5" id="bhx-qE-Tdk"/>
+                        <outlet property="scoreLabel" destination="d5d-Yd-6i3" id="HSJ-ID-cOY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="down" id="8pi-Gb-2s6">
                     <connections>
-                        <action selector="didSwipe:" destination="BV1-FR-VrT" id="h1i-bu-u29"/>
+                        <action selector="didSwipe:" destination="BV1-FR-VrT" id="yuJ-Fh-AsT"/>
                         <outlet property="delegate" destination="BV1-FR-VrT" id="pi4-LZ-dBZ"/>
                     </connections>
                 </swipeGestureRecognizer>
                 <tapGestureRecognizer id="JI1-b1-CqY">
                     <connections>
-                        <action selector="didTick:" destination="BV1-FR-VrT" id="acg-tC-uDG"/>
+                        <action selector="didTap:" destination="BV1-FR-VrT" id="xpy-Ck-Xok"/>
                         <outlet property="delegate" destination="BV1-FR-VrT" id="adZ-vy-Z3e"/>
                     </connections>
                 </tapGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="qOo-f8-4Eh">
                     <connections>
-                        <action selector="didPan:" destination="BV1-FR-VrT" id="jHh-6Q-Rse"/>
+                        <action selector="didPan:" destination="BV1-FR-VrT" id="4Ug-dd-E6i"/>
                         <outlet property="delegate" destination="BV1-FR-VrT" id="2eK-Fo-G6w"/>
                     </connections>
                 </panGestureRecognizer>
