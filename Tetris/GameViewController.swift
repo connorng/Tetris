@@ -46,10 +46,6 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
     @IBAction func didSwipe(_ sender: UISwipeGestureRecognizer) {
         tetris.dropShape()
     }
-	
-    func gestureRecognizer() -> Bool {
-        return true
-    }
 
     @IBAction func didTap(_ sender: UITapGestureRecognizer) {
         tetris.rotateShape()

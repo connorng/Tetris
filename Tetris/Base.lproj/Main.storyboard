@@ -72,6 +72,8 @@
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="JI1-b1-CqY" appends="YES" id="CfZ-uu-uvc"/>
+                            <outletCollection property="gestureRecognizers" destination="VKi-qY-kzp" appends="YES" id="d6f-Ep-zKx"/>
+                            <outletCollection property="gestureRecognizers" destination="0Zj-Z5-ZKh" appends="YES" id="7Co-bI-lXe"/>
                         </connections>
                     </view>
                     <connections>
@@ -80,24 +82,22 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="down" id="8pi-Gb-2s6">
-                    <connections>
-                        <action selector="didSwipe:" destination="BV1-FR-VrT" id="yuJ-Fh-AsT"/>
-                        <outlet property="delegate" destination="BV1-FR-VrT" id="pi4-LZ-dBZ"/>
-                    </connections>
-                </swipeGestureRecognizer>
                 <tapGestureRecognizer id="JI1-b1-CqY">
                     <connections>
-                        <action selector="didTap:" destination="BV1-FR-VrT" id="xpy-Ck-Xok"/>
+                        <action selector="didTap:" destination="BV1-FR-VrT" id="3Ty-DK-RVn"/>
                         <outlet property="delegate" destination="BV1-FR-VrT" id="adZ-vy-Z3e"/>
                     </connections>
                 </tapGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="qOo-f8-4Eh">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="VKi-qY-kzp">
                     <connections>
-                        <action selector="didPan:" destination="BV1-FR-VrT" id="4Ug-dd-E6i"/>
-                        <outlet property="delegate" destination="BV1-FR-VrT" id="2eK-Fo-G6w"/>
+                        <action selector="didPan:" destination="BV1-FR-VrT" id="tKX-9t-5os"/>
                     </connections>
                 </panGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="0Zj-Z5-ZKh">
+                    <connections>
+                        <action selector="didSwipe:" destination="BV1-FR-VrT" id="bw0-Ez-Rfq"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
         </scene>
     </scenes>
