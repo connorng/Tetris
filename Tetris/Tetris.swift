@@ -13,7 +13,7 @@ let StartingRow = 0
 let PreviewColumn = 12
 let PreviewRow = 1
 let PointsPerLine = 10
-let LevelThreshold = 500
+let LevelThreshold = 20
 
 protocol TetrisDelegate {
     func gameDidEnd (tetris: Tetris)
@@ -121,42 +121,22 @@ class Tetris {
             return
         }
         shape.shiftLeftByOneColumn()
-        if detectIllegalPlacement(){
-            shape.raiseShapeByOneRow()
-            if detectIllegalPlacement(){
-                endGame();
-            }
-            else {
-                settleShape();
-            }
+        guard detectIllegalPlacement() == false else {
+            shape.shiftRightByOneColumn()
+            return
         }
-        else {
-            delegate?.gameShapeDidMove(tetris: self)
-            if detectTouch(){
-                settleShape();
-            }
-        }
+        delegate?.gameShapeDidMove(tetris: self)
     }
     func moveShapeRight(){
         guard let shape = fallingShape else {
             return
         }
         shape.shiftRightByOneColumn()
-        if detectIllegalPlacement(){
-            shape.raiseShapeByOneRow()
-            if detectIllegalPlacement(){
-                endGame();
-            }
-            else {
-                settleShape();
-            }
+        guard detectIllegalPlacement() == false else {
+            shape.shiftLeftByOneColumn()
+            return
         }
-        else {
-            delegate?.gameShapeDidMove(tetris: self)
-            if detectTouch(){
-                settleShape();
-            }
-        }
+        delegate?.gameShapeDidMove(tetris: self)
     }
     
     func settleShape(){

@@ -71,8 +71,7 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
     }
     func didTick(){
         tetris.letShapeFall()
-        tetris.fallingShape?.lowerShapeByOneRow()
-        scene.redrawShape(shape: tetris.fallingShape!, completion: {})
+     
     }
     func nextShape(){
         let newShape = tetris.newShape()
@@ -107,7 +106,7 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
         }
     }
     func gameDidLevelUp(tetris: Tetris) {
-        levelLabel.text = "\(tetris.level)"
+        self.levelLabel.text = "\(tetris.level)"
         if scene.tickLengthMillis >= 100 {
             scene.tickLengthMillis -= 100
         }
