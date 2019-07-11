@@ -18,8 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vVb-Gt-fca">
-                                <rect key="frame" x="261" y="118" width="84" height="100"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vVb-Gt-fca">
+                                <rect key="frame" x="261" y="120" width="84" height="100"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="whitebg" translatesAutoresizingMaskIntoConstraints="NO" id="gDr-2P-Yyv">
                                         <rect key="frame" x="0.0" y="-1.3244206773640963" width="84" height="100.64527629233686"/>
@@ -45,8 +45,8 @@
                                     <constraint firstAttribute="width" constant="84" id="hqr-dX-WhS"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w7n-iK-dc2">
-                                <rect key="frame" x="261" y="237" width="84" height="100"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w7n-iK-dc2">
+                                <rect key="frame" x="261" y="239" width="84" height="100"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="whitebg" translatesAutoresizingMaskIntoConstraints="NO" id="37G-Mx-poD">
                                         <rect key="frame" x="0.0" y="0.0" width="84" height="100"/>
@@ -78,9 +78,9 @@
                         <constraints>
                             <constraint firstItem="w7n-iK-dc2" firstAttribute="leading" secondItem="vVb-Gt-fca" secondAttribute="leading" id="3LG-6v-eNV"/>
                             <constraint firstItem="vVb-Gt-fca" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" constant="98" id="Jpa-pK-SFy"/>
-                            <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="vVb-Gt-fca" secondAttribute="trailing" constant="30" id="S1n-lw-qGQ"/>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="vVb-Gt-fca" secondAttribute="trailing" constant="15" id="S1n-lw-qGQ"/>
                             <constraint firstItem="w7n-iK-dc2" firstAttribute="top" secondItem="vVb-Gt-fca" secondAttribute="bottom" constant="19" id="YGl-mX-ovX"/>
-                            <constraint firstItem="vVb-Gt-fca" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" constant="98" id="lGh-il-Nzn"/>
+                            <constraint firstItem="vVb-Gt-fca" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" constant="100" id="aU7-Gv-Pfv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                         <connections>
