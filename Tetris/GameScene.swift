@@ -10,6 +10,7 @@ import SpriteKit
 
 let TickLengthLevelOne = TimeInterval(600)
 let BlockSize:CGFloat = UIScreen.main.bounds.width * 0.06
+let ScalingFactor:CGFloat = UIScreen.main.bounds.width / 320
 
 class GameScene: SKScene {
 	
@@ -32,6 +33,7 @@ class GameScene: SKScene {
 		anchorPoint = CGPoint(x: 0, y: 1.0)
 		
 		let background = SKSpriteNode(imageNamed: "background")
+        background.setScale(ScalingFactor)
 		background.position = CGPoint(x: 0, y: 0)
 		background.anchorPoint = CGPoint(x: 0, y: 1.0)
 		addChild(background)
@@ -126,6 +128,7 @@ class GameScene: SKScene {
             }
             // TODO: resize textures for screen
             let sprite = SKSpriteNode (texture: texture)
+            sprite.setScale(ScalingFactor)
             sprite.position = pointForColumn (column: block.column, row: block.row - 2)
             shapeLayer.addChild(sprite)
             block.sprite = sprite
