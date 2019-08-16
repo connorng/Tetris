@@ -111,6 +111,7 @@
                         <action selector="didSwipe:" destination="BV1-FR-VrT" id="bw0-Ez-Rfq"/>
                     </connections>
                 </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="up" id="D5d-nG-qN0"/>
             </objects>
         </scene>
     </scenes>

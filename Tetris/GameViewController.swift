@@ -43,6 +43,10 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
         return true
     }
     
+    @IBAction func didSwipeUp(_ sender: UISwipeGestureRecognizer) {
+        tetris.holdShape ()
+    }
+    
     @IBAction func didSwipe(_ sender: UISwipeGestureRecognizer) {
         tetris.dropShape()
     }
@@ -121,6 +125,9 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
             tetris.letShapeFall()
         })
         scene.playSound(sound: "Sounds/drop.mp3")
+    }
+    func gameShapeWasHeld(tetris: Tetris){
+        nextShape()
     }
     func gameShapeDidLand(tetris: Tetris) {
         scene.stopTicking()

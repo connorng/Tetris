@@ -22,12 +22,14 @@ protocol TetrisDelegate {
     func gameShapeDidMove (tetris: Tetris)
     func gameShapeDidDrop (tetris: Tetris)
     func gameDidLevelUp (tetris: Tetris)
+    func gameShapeWasHeld (tetris: Tetris)
 }
 
 class Tetris {
     var blockArray: Array2D <Block>
     var nextShape: Shape?
     var fallingShape: Shape?
+    var heldShape: Shape?
     var delegate: TetrisDelegate?
     var score = 0
     var level = 1
@@ -73,6 +75,14 @@ class Tetris {
             }
         }
         return false
+    }
+    func holdShape(){
+        guard let shape = fallingShape else {
+            return
+        }
+        heldShape = shape
+        fallingShape = nil
+        delegate?.gameShapeWasHeld(tetris: self)
     }
     func dropShape(){
         guard let shape = fallingShape else {
