@@ -81,7 +81,9 @@ class Tetris {
             return
         }
         heldShape = shape
-        fallingShape = nil
+        shape.shiftBy(columns: NumColumns - shape.column - 1, rows: NumRows - shape.row - 1)
+      
+        //fallingShape = nil
         delegate?.gameShapeWasHeld(tetris: self)
     }
     func dropShape(){

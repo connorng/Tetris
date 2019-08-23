@@ -127,6 +127,7 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
         scene.playSound(sound: "Sounds/drop.mp3")
     }
     func gameShapeWasHeld(tetris: Tetris){
+        scene.redrawShape(shape: tetris.heldShape!, completion: {})
         nextShape()
     }
     func gameShapeDidLand(tetris: Tetris) {
