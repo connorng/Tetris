@@ -81,7 +81,7 @@ class Tetris {
             return
         }
         heldShape = shape
-        shape.shiftBy(columns: NumColumns - shape.column - 1, rows: NumRows - shape.row - 1)
+        shape.shiftBy(columns: NumColumns - shape.column + 2, rows: NumRows - shape.row - 2)
       
         //fallingShape = nil
         delegate?.gameShapeWasHeld(tetris: self)
