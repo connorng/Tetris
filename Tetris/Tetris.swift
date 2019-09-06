@@ -77,6 +77,10 @@ class Tetris {
         return false
     }
     func holdShape(){
+        var oldHeldShape: Shape? = nil
+        if heldShape != nil {
+            oldHeldShape = heldShape
+        }
         guard let shape = fallingShape else {
             return
         }
@@ -85,6 +89,10 @@ class Tetris {
       
         //fallingShape = nil
         delegate?.gameShapeWasHeld(tetris: self)
+        guard let oldShape = oldHeldShape else {
+            return
+        }
+        oldShape.shiftBy(columns: (NumColumns / 2) - oldShape.column, rows: -oldShape.row)
     }
     func dropShape(){
         guard let shape = fallingShape else {
