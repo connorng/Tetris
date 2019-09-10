@@ -78,6 +78,9 @@ class Tetris {
         return false
     }
     func holdShape(){
+        if oldHeldShape == fallingShape {
+            return
+        }
         if heldShape != nil {
             oldHeldShape = heldShape
         }
