@@ -128,6 +128,10 @@ class GameViewController: UIViewController, TetrisDelegate, UIGestureRecognizerD
     }
     func gameShapeWasHeld(tetris: Tetris){
         scene.redrawShape(shape: tetris.heldShape!, completion: {})
+        if tetris.oldHeldShape != nil {
+            scene.redrawShape(shape: tetris.oldHeldShape!, completion: {})
+            return
+        }
         nextShape()
     }
     func gameShapeDidLand(tetris: Tetris) {

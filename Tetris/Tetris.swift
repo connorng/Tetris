@@ -30,6 +30,7 @@ class Tetris {
     var nextShape: Shape?
     var fallingShape: Shape?
     var heldShape: Shape?
+    var oldHeldShape: Shape?
     var delegate: TetrisDelegate?
     var score = 0
     var level = 1
@@ -77,7 +78,6 @@ class Tetris {
         return false
     }
     func holdShape(){
-        var oldHeldShape: Shape? = nil
         if heldShape != nil {
             oldHeldShape = heldShape
         }
@@ -87,12 +87,13 @@ class Tetris {
         heldShape = shape
         shape.shiftBy(columns: NumColumns - shape.column + 2, rows: NumRows - shape.row - 2)
       
-        //fallingShape = nil
-        delegate?.gameShapeWasHeld(tetris: self)
         guard let oldShape = oldHeldShape else {
+            delegate?.gameShapeWasHeld(tetris: self)
             return
         }
         oldShape.shiftBy(columns: (NumColumns / 2) - oldShape.column, rows: -oldShape.row)
+        fallingShape = oldShape
+        delegate?.gameShapeWasHeld(tetris: self)
     }
     func dropShape(){
         guard let shape = fallingShape else {
